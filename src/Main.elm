@@ -113,8 +113,17 @@ view model =
             [ header, front, quote, forening, footer ]
 
 
+
+-- extremely ugly way to create a box - is there a better way?
+
+
+box props =
+    el props (text "")
+
+
 front =
-    el [ Background.color orange, width fill ] <| row [ centerX, spacing 16 ] [ column [] [ img [ width <| px 300 ] "logo_blue.png", img [ width <| px 300 ] "gertrud.jpg" ], about ]
+    el [ width fill, height <| px 350, behindContent <| box [ Background.color orange, width <| px 640, height <| px 320, alignLeft ] ] <|
+        row [ centerX, inFront <| img [ width <| px 200, zIndex 1000, moveUp 45 ] "logo_blue.png" ] [ column [] [ img [ width <| px 300, moveRight 10, zIndex 10 ] "gertrud.jpg" ], el [ moveDown 16 ] about ]
 
 
 flamaFont =
@@ -165,7 +174,8 @@ header =
         [ headerButton "FORSIDE" Front
         , headerButton "NÆSTE BEGIVENHED" NextEvent
         , headerButton "BAGOM" Behind
-        , headerButton "EVENTS" Events
+
+        -- , headerButton "EVENTS" Events
         , headerButton "KONTAKT" Contact
         , headerButton "STØT OS" SupportUs
         ]
@@ -242,7 +252,7 @@ quote =
                     |> regularText [ Font.bold, Font.color blue, largeFontSize, Font.center ]
                 , regularText [ Font.color blue, largeFontSize, Font.center, Font.bold ] "Katja, 28 år"
                 ]
-        , img [ width <| px 500, centerX, moveUp 170, zIndex -1 ] "hand.png"
+        , img [ width <| px 350, centerX, moveUp 100, zIndex -1 ] "hand.png"
         ]
 
 
@@ -251,10 +261,8 @@ about =
     el
         [ Background.color blue
         , width <| px 300
-        , height <| px 350
+        , height <| px 320
         , padding 32
-
-        --, moveLeft 100
         ]
         (column [ width fill, spacing 20 ]
             [ heading white orange "HVAD PRALER DU AF?"
