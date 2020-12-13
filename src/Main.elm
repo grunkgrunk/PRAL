@@ -89,7 +89,7 @@ white =
 
 img : List (Attribute msg) -> String -> Element msg
 img opts fl =
-    image opts { src = "PRAL/assets/" ++ fl, description = "" }
+    image opts { src = "/assets/" ++ fl, description = "" }
 
 
 main =
