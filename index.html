@@ -10952,6 +10952,15 @@ var $mdgriffith$elm_ui$Internal$Model$Class = F2(
 	});
 var $mdgriffith$elm_ui$Internal$Flag$fontWeight = $mdgriffith$elm_ui$Internal$Flag$flag(13);
 var $mdgriffith$elm_ui$Element$Font$bold = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.bold);
+var $mdgriffith$elm_ui$Internal$Model$ImportFont = F2(
+	function (a, b) {
+		return {$: 'ImportFont', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Element$Font$external = function (_v0) {
+	var url = _v0.url;
+	var name = _v0.name;
+	return A2($mdgriffith$elm_ui$Internal$Model$ImportFont, name, url);
+};
 var $mdgriffith$elm_ui$Internal$Model$FontFamily = F2(
 	function (a, b) {
 		return {$: 'FontFamily', a: a, b: b};
@@ -11007,18 +11016,16 @@ var $mdgriffith$elm_ui$Element$Font$family = function (families) {
 };
 var $mdgriffith$elm_ui$Internal$Model$SansSerif = {$: 'SansSerif'};
 var $mdgriffith$elm_ui$Element$Font$sansSerif = $mdgriffith$elm_ui$Internal$Model$SansSerif;
-var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
-	return {$: 'Typeface', a: a};
-};
-var $mdgriffith$elm_ui$Element$Font$typeface = $mdgriffith$elm_ui$Internal$Model$Typeface;
 var $author$project$Main$flamaFont = _List_fromArray(
 	[
 		$mdgriffith$elm_ui$Element$Font$family(
 		_List_fromArray(
 			[
-				$mdgriffith$elm_ui$Element$Font$typeface('flama'),
+				$mdgriffith$elm_ui$Element$Font$external(
+				{name: 'Roboto', url: 'https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'}),
 				$mdgriffith$elm_ui$Element$Font$sansSerif
-			]))
+			])),
+		$mdgriffith$elm_ui$Element$Font$bold
 	]);
 var $mdgriffith$elm_ui$Element$Font$italic = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.italic);
 var $mdgriffith$elm_ui$Internal$Model$formatTextShadow = function (shadow) {
@@ -11144,6 +11151,22 @@ var $author$project$Main$footerEl = F2(
 	});
 var $mdgriffith$elm_ui$Internal$Model$Left = {$: 'Left'};
 var $mdgriffith$elm_ui$Element$alignLeft = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$Left);
+var $elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
+	});
+var $elm$core$Basics$pow = _Basics_pow;
+var $mdgriffith$elm_ui$Element$modular = F3(
+	function (normal, ratio, rescale) {
+		return (!rescale) ? normal : ((rescale < 0) ? (normal * A2($elm$core$Basics$pow, ratio, rescale)) : (normal * A2($elm$core$Basics$pow, ratio, rescale - 1)));
+	});
+var $author$project$Main$scaled = A2(
+	$elm$core$Basics$composeR,
+	A2($mdgriffith$elm_ui$Element$modular, 12, 1.25),
+	$elm$core$Basics$round);
+var $author$project$Main$normalFontSize = $mdgriffith$elm_ui$Element$Font$size(
+	$author$project$Main$scaled(1));
 var $mdgriffith$elm_ui$Internal$Model$Describe = function (a) {
 	return {$: 'Describe', a: a};
 };
@@ -11174,11 +11197,7 @@ var $author$project$Main$regularText = F2(
 				$author$project$Main$flamaFont,
 				_Utils_ap(
 					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$Font$size(16),
-							$mdgriffith$elm_ui$Element$alignLeft,
-							$mdgriffith$elm_ui$Element$Font$bold
-						]),
+						[$author$project$Main$normalFontSize, $mdgriffith$elm_ui$Element$alignLeft]),
 					opts)),
 			_List_fromArray(
 				[
@@ -11505,6 +11524,8 @@ var $author$project$Main$forening = A2(
 					]))
 			])));
 var $mdgriffith$elm_ui$Element$Font$alignLeft = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontAlignment, $mdgriffith$elm_ui$Internal$Style$classes.textLeft);
+var $author$project$Main$largeFontSize = $mdgriffith$elm_ui$Element$Font$size(
+	$author$project$Main$scaled(3));
 var $author$project$Main$heading = function (fontColor) {
 	return A2(
 		$author$project$Main$boldWithShadow,
@@ -11512,10 +11533,12 @@ var $author$project$Main$heading = function (fontColor) {
 			[
 				$mdgriffith$elm_ui$Element$Font$color(fontColor),
 				$mdgriffith$elm_ui$Element$centerX,
-				$mdgriffith$elm_ui$Element$Font$size(64)
+				$author$project$Main$largeFontSize
 			]),
-		4);
+		2);
 };
+var $author$project$Main$mediumFontSize = $mdgriffith$elm_ui$Element$Font$size(
+	$author$project$Main$scaled(2));
 var $author$project$Main$roundedButton = A3(
 	$author$project$Main$boldWithShadow,
 	_List_fromArray(
@@ -11523,7 +11546,7 @@ var $author$project$Main$roundedButton = A3(
 			$mdgriffith$elm_ui$Element$Background$color($author$project$Main$orange),
 			$mdgriffith$elm_ui$Element$Border$rounded(50),
 			$mdgriffith$elm_ui$Element$padding(8),
-			$mdgriffith$elm_ui$Element$Font$size(16),
+			$author$project$Main$mediumFontSize,
 			$mdgriffith$elm_ui$Element$Font$color($author$project$Main$white)
 		]),
 	2,
@@ -11534,10 +11557,10 @@ var $author$project$Main$about = A2(
 		[
 			$mdgriffith$elm_ui$Element$Background$color($author$project$Main$blue),
 			$mdgriffith$elm_ui$Element$width(
-			$mdgriffith$elm_ui$Element$px(400)),
+			$mdgriffith$elm_ui$Element$px(300)),
 			$mdgriffith$elm_ui$Element$height(
-			$mdgriffith$elm_ui$Element$px(400)),
-			$mdgriffith$elm_ui$Element$padding(20)
+			$mdgriffith$elm_ui$Element$px(350)),
+			$mdgriffith$elm_ui$Element$padding(32)
 		]),
 	A2(
 		$mdgriffith$elm_ui$Element$column,
@@ -11554,8 +11577,7 @@ var $author$project$Main$about = A2(
 				_List_fromArray(
 					[
 						$mdgriffith$elm_ui$Element$Font$color($author$project$Main$white),
-						$mdgriffith$elm_ui$Element$Font$alignLeft,
-						$mdgriffith$elm_ui$Element$Font$size(16)
+						$mdgriffith$elm_ui$Element$Font$alignLeft
 					]),
 				'Måske ikke så meget, men du ved helt sikkert noget om aktier, warhammers, dragrace eller noget helt andet.'),
 				A2(
@@ -11622,10 +11644,21 @@ var $author$project$Main$front = A2(
 var $author$project$Main$Behind = {$: 'Behind'};
 var $author$project$Main$Contact = {$: 'Contact'};
 var $author$project$Main$Events = {$: 'Events'};
+var $author$project$Main$NextEvent = {$: 'NextEvent'};
 var $author$project$Main$SupportUs = {$: 'SupportUs'};
 var $mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
 var $mdgriffith$elm_ui$Element$alignRight = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$Right);
-var $author$project$Main$large = 16;
+var $mdgriffith$elm_ui$Internal$Flag$borderColor = $mdgriffith$elm_ui$Internal$Flag$flag(28);
+var $mdgriffith$elm_ui$Element$Border$color = function (clr) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderColor,
+		A3(
+			$mdgriffith$elm_ui$Internal$Model$Colored,
+			'bc-' + $mdgriffith$elm_ui$Internal$Model$formatColorClass(clr),
+			'border-color',
+			clr));
+};
 var $elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -11673,8 +11706,17 @@ var $author$project$Main$locationToStr = function (loc) {
 			return 'events';
 		case 'Contact':
 			return 'contact';
-		default:
+		case 'SupportUs':
 			return 'supportus';
+		default:
+			return 'nextevent';
+	}
+};
+var $author$project$Main$locationToLink = function (loc) {
+	if (loc.$ === 'NextEvent') {
+		return 'https://www.facebook.com/PRALkbh/events/?ref=page_internal';
+	} else {
+		return '#' + $author$project$Main$locationToStr(loc);
 	}
 };
 var $mdgriffith$elm_ui$Internal$Model$Hover = {$: 'Hover'};
@@ -11820,6 +11862,51 @@ var $mdgriffith$elm_ui$Element$mouseOver = function (decs) {
 			$mdgriffith$elm_ui$Internal$Model$Hover,
 			$mdgriffith$elm_ui$Internal$Model$unwrapDecorations(decs)));
 };
+var $mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
+	function (a, b, c, d, e) {
+		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
+	});
+var $mdgriffith$elm_ui$Element$Border$width = function (v) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderWidth,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$BorderWidth,
+			'b-' + $elm$core$String$fromInt(v),
+			v,
+			v,
+			v,
+			v));
+};
+var $mdgriffith$elm_ui$Element$Border$widthXY = F2(
+	function (x, y) {
+		return A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$borderWidth,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$BorderWidth,
+				'b-' + ($elm$core$String$fromInt(x) + ('-' + $elm$core$String$fromInt(y))),
+				y,
+				x,
+				y,
+				x));
+	});
+var $mdgriffith$elm_ui$Element$Border$widthEach = function (_v0) {
+	var bottom = _v0.bottom;
+	var top = _v0.top;
+	var left = _v0.left;
+	var right = _v0.right;
+	return (_Utils_eq(top, bottom) && _Utils_eq(left, right)) ? (_Utils_eq(top, right) ? $mdgriffith$elm_ui$Element$Border$width(top) : A2($mdgriffith$elm_ui$Element$Border$widthXY, left, top)) : A2(
+		$mdgriffith$elm_ui$Internal$Model$StyleClass,
+		$mdgriffith$elm_ui$Internal$Flag$borderWidth,
+		A5(
+			$mdgriffith$elm_ui$Internal$Model$BorderWidth,
+			'b-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left))))))),
+			top,
+			right,
+			bottom,
+			left));
+};
 var $author$project$Main$headerButton = F2(
 	function (txt, loc) {
 		return A2(
@@ -11832,16 +11919,19 @@ var $author$project$Main$headerButton = F2(
 						$mdgriffith$elm_ui$Element$Font$italic,
 						$mdgriffith$elm_ui$Element$Font$bold,
 						$mdgriffith$elm_ui$Element$alignRight,
-						$mdgriffith$elm_ui$Element$Font$size($author$project$Main$large),
+						$author$project$Main$normalFontSize,
+						$mdgriffith$elm_ui$Element$Border$widthEach(
+						{bottom: 2, left: 0, right: 0, top: 0}),
+						$mdgriffith$elm_ui$Element$Border$color($author$project$Main$white),
 						$mdgriffith$elm_ui$Element$mouseOver(
 						_List_fromArray(
 							[
-								$mdgriffith$elm_ui$Element$Font$color($author$project$Main$orange)
+								$mdgriffith$elm_ui$Element$Border$color($author$project$Main$blue)
 							]))
 					])),
 			{
 				label: $mdgriffith$elm_ui$Element$text(txt),
-				url: '#' + $author$project$Main$locationToStr(loc)
+				url: $author$project$Main$locationToLink(loc)
 			});
 	});
 var $author$project$Main$xLarge = 32;
@@ -11857,6 +11947,7 @@ var $author$project$Main$header = A2(
 	_List_fromArray(
 		[
 			A2($author$project$Main$headerButton, 'FORSIDE', $author$project$Main$Front),
+			A2($author$project$Main$headerButton, 'NÆSTE BEGIVENHED', $author$project$Main$NextEvent),
 			A2($author$project$Main$headerButton, 'BAGOM', $author$project$Main$Behind),
 			A2($author$project$Main$headerButton, 'EVENTS', $author$project$Main$Events),
 			A2($author$project$Main$headerButton, 'KONTAKT', $author$project$Main$Contact),
@@ -12018,6 +12109,9 @@ var $mdgriffith$elm_ui$Internal$Model$renderRoot = F3(
 					_List_fromArray(
 						[child]))));
 	});
+var $mdgriffith$elm_ui$Internal$Model$Typeface = function (a) {
+	return {$: 'Typeface', a: a};
+};
 var $mdgriffith$elm_ui$Internal$Model$rootStyle = function () {
 	var families = _List_fromArray(
 		[
@@ -12126,7 +12220,7 @@ var $author$project$Main$quote = A2(
 					[
 						$mdgriffith$elm_ui$Element$spacing($author$project$Main$xLarge),
 						$mdgriffith$elm_ui$Element$width(
-						$mdgriffith$elm_ui$Element$px(800))
+						$mdgriffith$elm_ui$Element$px(500))
 					]),
 				_List_fromArray(
 					[
@@ -12136,7 +12230,7 @@ var $author$project$Main$quote = A2(
 							[
 								$mdgriffith$elm_ui$Element$Font$bold,
 								$mdgriffith$elm_ui$Element$Font$color($author$project$Main$blue),
-								$mdgriffith$elm_ui$Element$Font$size(32),
+								$author$project$Main$largeFontSize,
 								$mdgriffith$elm_ui$Element$Font$center
 							]),
 						$author$project$Main$wrapQuote('Jeg synes, det er fedt at få et indblik i andres passioner, og det synes jeg giver noget mod til mig selv.')),
@@ -12145,7 +12239,7 @@ var $author$project$Main$quote = A2(
 						_List_fromArray(
 							[
 								$mdgriffith$elm_ui$Element$Font$color($author$project$Main$blue),
-								$mdgriffith$elm_ui$Element$Font$size(32),
+								$author$project$Main$largeFontSize,
 								$mdgriffith$elm_ui$Element$Font$center,
 								$mdgriffith$elm_ui$Element$Font$bold
 							]),
