@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Browser
-import Css exposing (Pct, pct, zIndex)
+import Css exposing (Pct, pct)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
@@ -17,10 +17,6 @@ type Location
     | Contact
     | SupportUs
     | NextEvent
-
-
-type Msg
-    = GoTo Location
 
 
 
@@ -56,7 +52,7 @@ xxLarge =
 
 
 scaled =
-    Element.modular 12 1.25 >> round
+    Element.modular 16 1.5 >> round
 
 
 normalFontSize =
@@ -74,7 +70,6 @@ largeFontSize =
 
 -- colors
 
-
 orange =
     rgb255 247 92 3
 
@@ -87,6 +82,7 @@ white =
     rgb255 255 255 255
 
 
+-- for builds there should not be the /, but running with elm reactor we have to have this.
 img : List (Attribute msg) -> String -> Element msg
 img opts fl =
     image opts { src = "assets/" ++ fl, description = "" }
@@ -96,10 +92,7 @@ main =
     Browser.sandbox { view = view, update = update, init = {} }
 
 
-update msg model =
-    case msg of
-        GoTo loc ->
-            model
+update msg model = model
 
 
 locationId =
@@ -115,15 +108,16 @@ view model =
 
 
 -- extremely ugly way to create a box - is there a better way?
-
+blueLogo = img [ width <| px 350 ] "logo_blue.png"
 
 box props =
     el props (text "")
 
 
 front =
-    el [ width fill, height <| px 350, behindContent <| box [ Background.color orange, width <| px 640, height <| px 320, alignLeft ] ] <|
-        row [ centerX, inFront <| img [ width <| px 200, zIndex 1000, moveUp 45 ] "logo_blue.png" ] [ column [] [ img [ width <| px 300, moveRight 10, zIndex 10 ] "gertrud.jpg" ], el [ moveDown 16 ] about ]
+    el [ width fill, inFront <| box [width fill, Background.color orange, height fill, moveLeft 128]  ]  <|
+        column [ centerX, width fill, spacing 10 ] [
+        row [ centerX, zIndex 50 ] [ column [moveUp 45, spacing 16] [ blueLogo, img [ width <| px 400 , moveRight 10 ] "gertrud.png" ], el [] about ] ]
 
 
 flamaFont =
@@ -168,10 +162,12 @@ locationToLink loc =
             "#" ++ locationToStr loc
 
 
-header : Element Msg
+-- header : Element Msg
+header : Element msg
 header =
     row [ width fill, spacing xLarge, padding 16, Background.color white ]
-        [ headerButton "FORSIDE" Front
+        [
+         headerButton "FORSIDE" Front
         , headerButton "NÆSTE BEGIVENHED" NextEvent
         , headerButton "BAGOM" Behind
 
@@ -181,7 +177,8 @@ header =
         ]
 
 
-headerButton : String -> Location -> Element Msg
+--headerButton : String -> Location -> 
+headerButton : String -> Location -> Element msg
 headerButton txt loc =
     link
         (flamaFont
@@ -207,7 +204,7 @@ headerButton txt loc =
 
 zIndex : Int -> Attribute msg
 zIndex z =
-    htmlAttribute <| style "z-index" (String.fromInt z)
+   htmlAttribute <| style "z-index" (String.fromInt z)
 
 
 setId : String -> Attribute msg
@@ -246,13 +243,13 @@ quote : Element msg
 quote =
     column [ width fill, padding 16 ] <|
         [ el [ centerX ] <|
-            column [ spacing xLarge, width <| px 500 ]
+            column [ spacing xLarge, width <| px 650 ]
                 [ "Jeg synes, det er fedt at få et indblik i andres passioner, og det synes jeg giver noget mod til mig selv."
                     |> wrapQuote
-                    |> regularText [ Font.bold, Font.color blue, largeFontSize, Font.center ]
+                    |> regularText [ Font.bold, Font.color blue, largeFontSize, Font.center, zIndex 100 ]
                 , regularText [ Font.color blue, largeFontSize, Font.center, Font.bold ] "Katja, 28 år"
                 ]
-        , img [ width <| px 350, centerX, moveUp 100, zIndex -1 ] "hand.png"
+        , img [ width <| px 500, centerX, moveUp 100 ] "hand.jpeg"
         ]
 
 
@@ -260,11 +257,11 @@ about : Element msg
 about =
     el
         [ Background.color blue
-        , width <| px 300
-        , height <| px 320
-        , padding 32
+        , width <| px 500
+        , height <| px 540
+        , padding 64
         ]
-        (column [ width fill, spacing 20 ]
+        (column [ width fill, spacing 32 ]
             [ heading white orange "HVAD PRALER DU AF?"
             , regularText [ Font.color white, Font.alignLeft ]
                 "Måske ikke så meget, men du ved helt sikkert noget om aktier, warhammers, dragrace eller noget helt andet."
@@ -293,7 +290,7 @@ forening =
             [ boldWithShadow [ Font.size 32, Font.color white ] 2 blue "EN FORENING AF UNGE"
             , row []
                 [ bulletPoints
-                , img [ width <| px 600 ] "christian.jpg"
+                , img [ width <| px 600 ] "christian.png"
                 ]
             ]
 

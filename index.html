@@ -5218,7 +5218,6 @@ var $elm$browser$Browser$sandbox = function (impl) {
 };
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		var loc = msg.a;
 		return model;
 	});
 var $author$project$Main$Front = {$: 'Front'};
@@ -11163,7 +11162,7 @@ var $mdgriffith$elm_ui$Element$modular = F3(
 	});
 var $author$project$Main$scaled = A2(
 	$elm$core$Basics$composeR,
-	A2($mdgriffith$elm_ui$Element$modular, 12, 1.25),
+	A2($mdgriffith$elm_ui$Element$modular, 16, 1.5),
 	$elm$core$Basics$round);
 var $author$project$Main$normalFontSize = $mdgriffith$elm_ui$Element$Font$size(
 	$author$project$Main$scaled(1));
@@ -11520,7 +11519,7 @@ var $author$project$Main$forening = A2(
 								$mdgriffith$elm_ui$Element$width(
 								$mdgriffith$elm_ui$Element$px(600))
 							]),
-						'christian.jpg')
+						'christian.png')
 					]))
 			])));
 var $mdgriffith$elm_ui$Element$Font$alignLeft = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontAlignment, $mdgriffith$elm_ui$Internal$Style$classes.textLeft);
@@ -11557,17 +11556,17 @@ var $author$project$Main$about = A2(
 		[
 			$mdgriffith$elm_ui$Element$Background$color($author$project$Main$blue),
 			$mdgriffith$elm_ui$Element$width(
-			$mdgriffith$elm_ui$Element$px(300)),
+			$mdgriffith$elm_ui$Element$px(500)),
 			$mdgriffith$elm_ui$Element$height(
-			$mdgriffith$elm_ui$Element$px(320)),
-			$mdgriffith$elm_ui$Element$padding(32)
+			$mdgriffith$elm_ui$Element$px(540)),
+			$mdgriffith$elm_ui$Element$padding(64)
 		]),
 	A2(
 		$mdgriffith$elm_ui$Element$column,
 		_List_fromArray(
 			[
 				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-				$mdgriffith$elm_ui$Element$spacing(20)
+				$mdgriffith$elm_ui$Element$spacing(32)
 			]),
 		_List_fromArray(
 			[
@@ -11601,7 +11600,21 @@ var $author$project$Main$about = A2(
 						$author$project$Main$roundedButton('STØT OS')
 					]))
 			])));
-var $mdgriffith$elm_ui$Internal$Model$Behind = {$: 'Behind'};
+var $author$project$Main$blueLogo = A2(
+	$author$project$Main$img,
+	_List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$width(
+			$mdgriffith$elm_ui$Element$px(350))
+		]),
+	'logo_blue.png');
+var $author$project$Main$box = function (props) {
+	return A2(
+		$mdgriffith$elm_ui$Element$el,
+		props,
+		$mdgriffith$elm_ui$Element$text(''));
+};
+var $mdgriffith$elm_ui$Internal$Model$InFront = {$: 'InFront'};
 var $mdgriffith$elm_ui$Internal$Model$Nearby = F2(
 	function (a, b) {
 		return {$: 'Nearby', a: a, b: b};
@@ -11615,43 +11628,33 @@ var $mdgriffith$elm_ui$Element$createNearby = F2(
 			return A2($mdgriffith$elm_ui$Internal$Model$Nearby, loc, element);
 		}
 	});
-var $mdgriffith$elm_ui$Element$behindContent = function (element) {
-	return A2($mdgriffith$elm_ui$Element$createNearby, $mdgriffith$elm_ui$Internal$Model$Behind, element);
-};
-var $author$project$Main$box = function (props) {
-	return A2(
-		$mdgriffith$elm_ui$Element$el,
-		props,
-		$mdgriffith$elm_ui$Element$text(''));
-};
-var $mdgriffith$elm_ui$Internal$Model$InFront = {$: 'InFront'};
 var $mdgriffith$elm_ui$Element$inFront = function (element) {
 	return A2($mdgriffith$elm_ui$Element$createNearby, $mdgriffith$elm_ui$Internal$Model$InFront, element);
 };
-var $mdgriffith$elm_ui$Internal$Model$MoveY = function (a) {
-	return {$: 'MoveY', a: a};
+var $mdgriffith$elm_ui$Internal$Model$MoveX = function (a) {
+	return {$: 'MoveX', a: a};
 };
 var $mdgriffith$elm_ui$Internal$Model$TransformComponent = F2(
 	function (a, b) {
 		return {$: 'TransformComponent', a: a, b: b};
 	});
-var $mdgriffith$elm_ui$Internal$Flag$moveY = $mdgriffith$elm_ui$Internal$Flag$flag(26);
-var $mdgriffith$elm_ui$Element$moveDown = function (y) {
+var $mdgriffith$elm_ui$Internal$Flag$moveX = $mdgriffith$elm_ui$Internal$Flag$flag(25);
+var $mdgriffith$elm_ui$Element$moveLeft = function (x) {
 	return A2(
 		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
-		$mdgriffith$elm_ui$Internal$Flag$moveY,
-		$mdgriffith$elm_ui$Internal$Model$MoveY(y));
+		$mdgriffith$elm_ui$Internal$Flag$moveX,
+		$mdgriffith$elm_ui$Internal$Model$MoveX(-x));
 };
-var $mdgriffith$elm_ui$Internal$Model$MoveX = function (a) {
-	return {$: 'MoveX', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Flag$moveX = $mdgriffith$elm_ui$Internal$Flag$flag(25);
 var $mdgriffith$elm_ui$Element$moveRight = function (x) {
 	return A2(
 		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
 		$mdgriffith$elm_ui$Internal$Flag$moveX,
 		$mdgriffith$elm_ui$Internal$Model$MoveX(x));
 };
+var $mdgriffith$elm_ui$Internal$Model$MoveY = function (a) {
+	return {$: 'MoveY', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Flag$moveY = $mdgriffith$elm_ui$Internal$Flag$flag(26);
 var $mdgriffith$elm_ui$Element$moveUp = function (y) {
 	return A2(
 		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
@@ -11673,62 +11676,57 @@ var $author$project$Main$front = A2(
 	_List_fromArray(
 		[
 			$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-			$mdgriffith$elm_ui$Element$height(
-			$mdgriffith$elm_ui$Element$px(350)),
-			$mdgriffith$elm_ui$Element$behindContent(
+			$mdgriffith$elm_ui$Element$inFront(
 			$author$project$Main$box(
 				_List_fromArray(
 					[
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
 						$mdgriffith$elm_ui$Element$Background$color($author$project$Main$orange),
-						$mdgriffith$elm_ui$Element$width(
-						$mdgriffith$elm_ui$Element$px(640)),
-						$mdgriffith$elm_ui$Element$height(
-						$mdgriffith$elm_ui$Element$px(320)),
-						$mdgriffith$elm_ui$Element$alignLeft
+						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+						$mdgriffith$elm_ui$Element$moveLeft(128)
 					])))
 		]),
 	A2(
-		$mdgriffith$elm_ui$Element$row,
+		$mdgriffith$elm_ui$Element$column,
 		_List_fromArray(
 			[
 				$mdgriffith$elm_ui$Element$centerX,
-				$mdgriffith$elm_ui$Element$inFront(
-				A2(
-					$author$project$Main$img,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$width(
-							$mdgriffith$elm_ui$Element$px(200)),
-							$author$project$Main$zIndex(1000),
-							$mdgriffith$elm_ui$Element$moveUp(45)
-						]),
-					'logo_blue.png'))
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$spacing(10)
 			]),
 		_List_fromArray(
 			[
 				A2(
-				$mdgriffith$elm_ui$Element$column,
-				_List_Nil,
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$centerX,
+						$author$project$Main$zIndex(50)
+					]),
 				_List_fromArray(
 					[
 						A2(
-						$author$project$Main$img,
+						$mdgriffith$elm_ui$Element$column,
 						_List_fromArray(
 							[
-								$mdgriffith$elm_ui$Element$width(
-								$mdgriffith$elm_ui$Element$px(300)),
-								$mdgriffith$elm_ui$Element$moveRight(10),
-								$author$project$Main$zIndex(10)
+								$mdgriffith$elm_ui$Element$moveUp(45),
+								$mdgriffith$elm_ui$Element$spacing(16)
 							]),
-						'gertrud.jpg')
-					])),
-				A2(
-				$mdgriffith$elm_ui$Element$el,
-				_List_fromArray(
-					[
-						$mdgriffith$elm_ui$Element$moveDown(16)
-					]),
-				$author$project$Main$about)
+						_List_fromArray(
+							[
+								$author$project$Main$blueLogo,
+								A2(
+								$author$project$Main$img,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$width(
+										$mdgriffith$elm_ui$Element$px(400)),
+										$mdgriffith$elm_ui$Element$moveRight(10)
+									]),
+								'gertrud.png')
+							])),
+						A2($mdgriffith$elm_ui$Element$el, _List_Nil, $author$project$Main$about)
+					]))
 			])));
 var $author$project$Main$Behind = {$: 'Behind'};
 var $author$project$Main$Contact = {$: 'Contact'};
@@ -12266,7 +12264,7 @@ var $author$project$Main$quote = A2(
 					[
 						$mdgriffith$elm_ui$Element$spacing($author$project$Main$xLarge),
 						$mdgriffith$elm_ui$Element$width(
-						$mdgriffith$elm_ui$Element$px(500))
+						$mdgriffith$elm_ui$Element$px(650))
 					]),
 				_List_fromArray(
 					[
@@ -12277,7 +12275,8 @@ var $author$project$Main$quote = A2(
 								$mdgriffith$elm_ui$Element$Font$bold,
 								$mdgriffith$elm_ui$Element$Font$color($author$project$Main$blue),
 								$author$project$Main$largeFontSize,
-								$mdgriffith$elm_ui$Element$Font$center
+								$mdgriffith$elm_ui$Element$Font$center,
+								$author$project$Main$zIndex(100)
 							]),
 						$author$project$Main$wrapQuote('Jeg synes, det er fedt at få et indblik i andres passioner, og det synes jeg giver noget mod til mig selv.')),
 						A2(
@@ -12296,12 +12295,11 @@ var $author$project$Main$quote = A2(
 			_List_fromArray(
 				[
 					$mdgriffith$elm_ui$Element$width(
-					$mdgriffith$elm_ui$Element$px(350)),
+					$mdgriffith$elm_ui$Element$px(500)),
 					$mdgriffith$elm_ui$Element$centerX,
-					$mdgriffith$elm_ui$Element$moveUp(100),
-					$author$project$Main$zIndex(-1)
+					$mdgriffith$elm_ui$Element$moveUp(100)
 				]),
-			'hand.png')
+			'hand.jpeg')
 		]));
 var $author$project$Main$view = function (model) {
 	return A2(
