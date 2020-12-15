@@ -70,6 +70,7 @@ largeFontSize =
 
 -- colors
 
+
 orange =
     rgb255 247 92 3
 
@@ -82,7 +83,10 @@ white =
     rgb255 255 255 255
 
 
+
 -- for builds there should not be the /, but running with elm reactor we have to have this.
+
+
 img : List (Attribute msg) -> String -> Element msg
 img opts fl =
     image opts { src = "assets/" ++ fl, description = "" }
@@ -92,7 +96,8 @@ main =
     Browser.sandbox { view = view, update = update, init = {} }
 
 
-update msg model = model
+update msg model =
+    model
 
 
 locationId =
@@ -100,7 +105,7 @@ locationId =
 
 
 view model =
-    layout [ width fill, height fill, inFront header ] <|
+    layout [ inFront header, width fill, height fill ] <|
         column [ locationId Front, width fill ]
             -- set the location id to front here rather than in the "front" function to ensure that we jump all the way to the top of the page
             [ header, front, quote, forening, footer ]
@@ -108,16 +113,25 @@ view model =
 
 
 -- extremely ugly way to create a box - is there a better way?
-blueLogo = img [ width <| px 350 ] "logo_blue.png"
+
+
+blueLogo =
+    img [ width <| px 350, zIndex 1000 ] "logo_blue.png"
+
 
 box props =
     el props (text "")
 
 
+boxBehind opts =
+    behindContent <| box ([ width fill ] ++ opts)
+
+
 front =
-    el [ width fill, inFront <| box [width fill, Background.color orange, height fill, moveLeft 128]  ]  <|
-        column [ centerX, width fill, spacing 10 ] [
-        row [ centerX, zIndex 50 ] [ column [moveUp 45, spacing 16] [ blueLogo, img [ width <| px 400 , moveRight 10 ] "gertrud.png" ], el [] about ] ]
+    el [ paddingEach { top = 55, bottom = 40, left = 0, right = 0 }, width fill, boxBehind [ Background.color orange, moveLeft 128, height <| px 550 ] ] <|
+        column [ centerX, width fill ]
+            [ row [ centerX ] [ column [ moveUp 45, spacing 16 ] [ blueLogo, img [ width <| px 400 ] "gertrud.png" ], el [ moveLeft 20 ] about ]
+            ]
 
 
 flamaFont =
@@ -162,12 +176,14 @@ locationToLink loc =
             "#" ++ locationToStr loc
 
 
+
 -- header : Element Msg
+
+
 header : Element msg
 header =
     row [ width fill, spacing xLarge, padding 16, Background.color white ]
-        [
-         headerButton "FORSIDE" Front
+        [ headerButton "FORSIDE" Front
         , headerButton "NÆSTE BEGIVENHED" NextEvent
         , headerButton "BAGOM" Behind
 
@@ -177,7 +193,10 @@ header =
         ]
 
 
---headerButton : String -> Location -> 
+
+--headerButton : String -> Location ->
+
+
 headerButton : String -> Location -> Element msg
 headerButton txt loc =
     link
@@ -204,7 +223,7 @@ headerButton txt loc =
 
 zIndex : Int -> Attribute msg
 zIndex z =
-   htmlAttribute <| style "z-index" (String.fromInt z)
+    htmlAttribute <| style "z-index" (String.fromInt z)
 
 
 setId : String -> Attribute msg
@@ -239,17 +258,20 @@ wrapQuote t =
     "\"" ++ t ++ "\""
 
 
+hand =
+    img [ width <| px 500, centerX, moveDown 155 ] "hand.jpeg"
+
+
 quote : Element msg
 quote =
-    column [ width fill, padding 16 ] <|
+    column [ width fill, height <| px 450 ] <|
         [ el [ centerX ] <|
-            column [ spacing xLarge, width <| px 650 ]
+            column [ width <| px 650, spacing 16, behindContent hand ]
                 [ "Jeg synes, det er fedt at få et indblik i andres passioner, og det synes jeg giver noget mod til mig selv."
                     |> wrapQuote
-                    |> regularText [ Font.bold, Font.color blue, largeFontSize, Font.center, zIndex 100 ]
+                    |> regularText [ Font.bold, Font.color blue, largeFontSize, Font.center ]
                 , regularText [ Font.color blue, largeFontSize, Font.center, Font.bold ] "Katja, 28 år"
                 ]
-        , img [ width <| px 500, centerX, moveUp 100 ] "hand.jpeg"
         ]
 
 
@@ -273,7 +295,7 @@ about =
 
 
 bullet n =
-    el [ Border.rounded 100, alignTop ] (regularText [ Font.center, Background.color blue, Font.color white, Font.size 32, padding 16 ] <| String.fromInt n)
+    img [ alignTop, width <| px 50 ] <| "point" ++ String.fromInt n ++ ".png"
 
 
 bulletPoint n txt =
@@ -281,18 +303,26 @@ bulletPoint n txt =
 
 
 bulletPoints =
-    column [ spacing 32, width fill, alignTop ] [ bulletPoint 1 "Måske ikke så meget, men du ved helt sikkert noget om aktier, warhammers, dragrace eller noget helt andet.", bulletPoint 2 "punkt 2", bulletPoint 3 "punkt 33333333" ]
+    column [ spacing 32, width fill, alignTop ]
+        [ bulletPoint 1 "PRAL hylder nørderi og fordybelse."
+        , bulletPoint 2 "Unge skal prale om deres vilde viden  - PRAL giver dem talerstolen."
+        , bulletPoint 3 "Præmissen er blot, du har en passion, du vil dele med os andre."
+        ]
 
 
 forening =
-    el [ width fill, padding 32, Background.color orange ] <|
-        column [ width fill, centerX, spacing 32 ]
+    el [ width fill, padding 64, boxBehind [ Background.color orange, height (px 500) ] ] <|
+        column [ width fill, centerX, spacing 64 ]
             [ boldWithShadow [ Font.size 32, Font.color white ] 2 blue "EN FORENING AF UNGE"
-            , row []
+            , row [ width fill, spacing 16, centerX ]
                 [ bulletPoints
-                , img [ width <| px 600 ] "christian.png"
+                , img [ width <| px 380 ] "christian.png"
                 ]
             ]
+
+
+unwrappedText txt =
+    el (flamaFont ++ [ Font.color white, normalFontSize ]) (text txt)
 
 
 roundedButton : String -> Element msg
@@ -306,15 +336,24 @@ footerEl txt other =
 
 
 footerAbout =
-    footerEl "OM OS" <| column [ width fill, spacing 8 ] [ regularText [ Font.color white, width fill ] "PRAL", regularText [ Font.color white, width fill ] "CVR: 41719028" ]
+    footerEl "OM OS" <| column [ width fill, spacing 8 ] [ unwrappedText "PRAL", unwrappedText "CVR: 41719028" ]
 
 
 footerContact =
-    footerEl "KONTAKT OS" <| column [ spacing 8 ] [ regularText [ Font.color white ] "pral@hotmail.com", regularText [ Font.color white ] "xx xx xx xx" ]
+    footerEl "KONTAKT OS" <|
+        column [ spacing 8 ]
+            [ unwrappedText "pral@hotmail.com"
+            , unwrappedText "xx xx xx xx"
+            ]
 
 
 footerFollow =
-    footerEl "FØLG OS" <| row [ spacing 8 ] [ el [ Background.color orange ] none, el [ Background.color orange ] none, el [ Background.color orange ] none ]
+    footerEl "FØLG OS" <|
+        row [ spacing 8 ]
+            [ el [ Background.color orange ] none
+            , el [ Background.color orange ] none
+            , el [ Background.color orange ] none
+            ]
 
 
 footer =
