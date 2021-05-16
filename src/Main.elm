@@ -11,12 +11,13 @@ import Html.Attributes exposing (align, style)
 
 
 type Location
-    = Front
+    = FrontPage
     | Behind
     | Events
     | Contact
     | SupportUs
     | NextEvent
+    | WhatIsPral
 
 
 
@@ -64,7 +65,7 @@ mediumFontSize =
 
 
 largeFontSize =
-    Font.size 64
+    Font.size 55
 
 
 
@@ -106,13 +107,17 @@ locationId =
 
 view model =
     layout [ inFront header, width fill, height fill ] <|
-        column [ locationId Front, width fill ]
+        column [ locationId FrontPage, width fill ]
             -- set the location id to front here rather than in the "front" function to ensure that we jump all the way to the top of the page
             [ header, front, quote, forening, events, supportUs, contact, footer ]
 
 
 blueLogo =
     img [ width <| px 350, paddingEach { top = 25, bottom = 25, left = 0, right = 0 } ] "logo_blue.png"
+
+
+orangeLogo =
+    img [ width <| px 120, paddingEach { top = 0, bottom = 0, left = 25, right = 0 } ] "logo_orange.png"
 
 
 
@@ -127,17 +132,46 @@ boxBehind opts =
     behindContent <| box ([ width fill ] ++ opts)
 
 
+complementColor color =
+    if color == orange then
+        blue
+
+    else
+        orange
+
+
+infoBox color headingText mainText =
+    el
+        [ Background.color color
+        , width <| px 420
+        , padding 35
+        ]
+        (column [ width fill, spacing 32 ]
+            [ heading white (complementColor color) headingText
+            , multilineText [ Font.color white, Font.alignLeft, spacing 32 ] mainText
+            ]
+        )
+
+
+orangeInfoBox =
+    infoBox orange
+
+
+blueInfoBox =
+    infoBox blue
+
+
 front =
     el
         [ paddingEach { top = 50, bottom = 40, left = 0, right = 0 }
         , width fill
         , centerX
-        , boxBehind [ Background.color orange, moveLeft 128, height <| px 550 ]
+        , boxBehind [ Background.color orange, moveRight 400, height <| px 550 ]
         ]
     <|
-        row [ width fill, centerX ]
-            [ column [ moveUp 45, spacing 16, centerX ] [ blueLogo, img [ width <| px 400 ] "gertrud.png" ]
-            , about
+        row [ centerX ]
+            [ about
+            , img [ width <| px 600, moveLeft 20, moveDown 100 ] "livfreja.png"
             ]
 
 
@@ -197,8 +231,8 @@ flamaFont =
 
 locationToStr loc =
     case loc of
-        Front ->
-            "front"
+        FrontPage ->
+            "frontpage"
 
         Behind ->
             "behind"
@@ -214,6 +248,9 @@ locationToStr loc =
 
         NextEvent ->
             "nextevent"
+
+        WhatIsPral ->
+            "whatispral"
 
 
 locationToLink : Location -> String
@@ -236,10 +273,11 @@ header =
 
         --, moveLeft (128 - 16) -- move left to align with orange box in the background
         ]
-        [ headerButton "FORSIDE" Front
-        , headerButton "BAGOM" Behind
+        [ orangeLogo
+        , headerButton "FORSIDE" FrontPage
+        , headerButton "PRAL?" WhatIsPral
         , headerButton "EVENTS" Events
-        , headerButton "STØT OS" SupportUs
+        , headerButton "BAG OM" Behind
         , headerButton "KONTAKT" Contact
         ]
 
@@ -303,7 +341,7 @@ setId id =
 
 heading : Color -> Color -> String -> Element msg
 heading fontColor =
-    boldWithShadow [ Font.color fontColor, alignLeft, largeFontSize ] 4
+    boldWithShadow [ Font.color fontColor, alignLeft, largeFontSize ] 3
 
 
 shadow : Color -> Float -> Attr decorative msg
@@ -327,7 +365,7 @@ hand =
 
 quote : Element msg
 quote =
-    column [ width fill, height <| px 450 ] <|
+    column [ width fill, height <| px 450, padding 100 ] <|
         [ el [ centerX ] <|
             multilineText
                 [ width <| px 650
@@ -356,14 +394,15 @@ multilineText opts strs =
             strs
 
 
+
 about : Element msg
 about =
     el
         [ Background.color blue
-        , width <| px 500
-        , centerX
-        , moveLeft 20
-        , padding 50
+        , width <| px 420
+        -- , centerX
+        -- , moveLeft 20
+        , padding 35
         ]
         (column [ width fill, spacing 32 ]
             [ heading white orange "HVAD PRALER\nDU AF?"
@@ -374,6 +413,14 @@ about =
                 ]
             ]
         )
+
+
+-- about =
+--     blueInfoBox "HVAD PRALER\nDU AF?"
+--         [ "Måske ikke så meget, men du ved helt sikkert noget om aktier, warhammers, dragrace eller noget helt andet."
+--         , "PRAL hylder unges vilde viden, til et gratis event hver måned. Her praler en ny ung løs om sin passion, som vi sammen skal nørde."
+--         , "Ingen er eksperter, men alle er nysgerrige!"
+--         ]
 
 
 bullet n =
@@ -392,6 +439,7 @@ bulletPoints =
         ]
 
 
+
 forening =
     el [ locationId Behind, width fill, padding 64, boxBehind [ Background.color orange, height (px 500) ] ] <|
         column [ width fill, centerX, spacing 64 ]
@@ -401,6 +449,24 @@ forening =
                 , img [ width <| px 400 ] "christian.png"
                 ]
             ]
+
+
+foreningInfo =
+    orangeInfoBox "EN FORENING AF UNGE" [ "blabla" ]
+
+
+-- forening =
+--     el
+--         [ paddingEach { top = 50, bottom = 40, left = 0, right = 0 }
+--         , width fill
+--         , centerX
+--         , boxBehind [ Background.color orange, moveRight 400, height <| px 550 ]
+--         ]
+--     <|
+--         row [ centerX ]
+--             [ img [ width <| px 600, moveLeft 20, moveDown 100 ] "christian.png"
+--             , foreningInfo
+--             ]
 
 
 unwrappedText props txt =
